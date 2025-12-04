@@ -1,0 +1,161 @@
+{
+    "positions": {
+        "ETH/KRW": {
+            "symbol": "ETH/KRW",
+            "qty": 0.0025,
+            "entry_price": 4720000.0,
+            "opened_at": "2025-12-05 00:09:50",
+            "pf_weight": 0.1,
+            "tp": 4861600.0,
+            "sl": 4625600.0,
+            "strat_reason": "",
+            "strength": 0,
+            "ai_tp": 0.03,
+            "ai_sl": 0.02,
+            "ai_confidence": 0.5,
+            "ai_reason": "동기화로 추가됨 - 수동 검토 필요",
+            "dca_stage": 0,
+            "dca_history": [],
+            "initial_qty": 0.0025,
+            "tp_levels": [],
+            "trailing": {
+                "enabled": false,
+                "trigger": null,
+                "offset": null,
+                "highest_price": 4720000.0
+            },
+            "position_type": "synced",
+            "holding_period": "",
+            "conf_mult": 1.0,
+            "time_zone": "",
+            "time_mult": 1.0,
+            "tp_mult": 1.0,
+            "entry_stage": 1,
+            "entry_ratio": 1.0,
+            "dca_interval": -0.05,
+            "trend": "neutral",
+            "atr_grade": "mid",
+            "synced": true,
+            "synced_at": "2025-12-05 00:09:50"
+        },
+        "FLOKI/KRW": {
+            "symbol": "FLOKI/KRW",
+            "qty": 239928.0,
+            "entry_price": 0.073,
+            "opened_at": "2025-12-05 00:17:24",
+            "pf_weight": 0.37499999999999994,
+            "tp": 0.07665,
+            "sl": 0.07081,
+            "strat_reason": "AI 기반 TP/SL",
+            "strength": 0.5,
+            "ai_tp": 0.05,
+            "ai_sl": 0.03,
+            "ai_confidence": 0.5,
+            "ai_reason": "주봉과 일봉 모두 횡보 중으로, 진입하기에 적합하지 않음.",
+            "dca_stage": 0,
+            "dca_history": [],
+            "initial_qty": 239928.0,
+            "tp_levels": [
+                {
+                    "id": 1,
+                    "name": "TP1",
+                    "price": 0.08,
+                    "portion": 0.5,
+                    "executed": false
+                },
+                {
+                    "id": 2,
+                    "name": "TP2",
+                    "price": 0.08,
+                    "portion": 0.3,
+                    "executed": false
+                },
+                {
+                    "id": 3,
+                    "name": "TP3",
+                    "price": 0.08,
+                    "portion": 0.2,
+                    "executed": false
+                }
+            ],
+            "trailing": {
+                "enabled": false,
+                "trigger": 0.03,
+                "offset": 0.015,
+                "highest_price": 0.073
+            },
+            "position_type": "swing",
+            "holding_period": "3~7일",
+            "conf_mult": 0.7,
+            "time_zone": "미국 개장 후반",
+            "time_mult": 1.1,
+            "tp_mult": 1.0,
+            "dynamic_mult": 0.7,
+            "entry_stage": 1,
+            "entry_ratio": 0.4,
+            "dca_interval": -0.05,
+            "trend": "neutral",
+            "atr_grade": "mid"
+        },
+        "XRP/KRW": {
+            "symbol": "XRP/KRW",
+            "qty": 3.6577,
+            "entry_price": 3208.0,
+            "opened_at": "2025-12-05 01:21:01",
+            "pf_weight": 0.25,
+            "tp": 3304.2400000000002,
+            "sl": 3111.7599999999998,
+            "strat_reason": "AI 기반 TP/SL",
+            "strength": 0.5,
+            "ai_tp": 0.03,
+            "ai_sl": 0.03,
+            "ai_confidence": 0.5,
+            "ai_reason": "error: cannot import name 'calculate_indicators' from 'bot.core.indicators' (/root/phoenix_v5_run/bot/core/indicators/__init__.py)",
+            "dca_stage": 0,
+            "dca_history": [],
+            "initial_qty": 3.6577,
+            "tp_levels": [
+                {
+                    "id": 1,
+                    "name": "TP1",
+                    "price": 3265.74,
+                    "portion": 0.5,
+                    "executed": false
+                },
+                {
+                    "id": 2,
+                    "name": "TP2",
+                    "price": 3304.24,
+                    "portion": 0.3,
+                    "executed": false
+                },
+                {
+                    "id": 3,
+                    "name": "TP3",
+                    "price": 3361.98,
+                    "portion": 0.2,
+                    "executed": false
+                }
+            ],
+            "trailing": {
+                "enabled": false,
+                "trigger": 0.03,
+                "offset": 0.015,
+                "highest_price": 3208.0
+            },
+            "position_type": "swing",
+            "holding_period": "unknown",
+            "conf_mult": 0.7,
+            "time_zone": "일반",
+            "time_mult": 1.0,
+            "tp_mult": 1.0,
+            "dynamic_mult": 0.7,
+            "entry_stage": 1,
+            "entry_ratio": 0.4,
+            "dca_interval": -0.05,
+            "trend": "neutral",
+            "atr_grade": "mid"
+        }
+    },
+    "sl_hold_until": {}
+}
