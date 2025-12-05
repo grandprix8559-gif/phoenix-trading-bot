@@ -1,0 +1,59 @@
+name: Daily Backup
+
+on:
+  schedule:
+    - cron: '0 15 * * *'  # 매일 자정 KST (UTC 15:00)
+  workflow_dispatch:  # 수동 트리거 허용
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Trigger VPS Backup
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /root/phoenix_v5_run
+            
+            echo "📦 Phoenix 백업 시작..."
+            
+            # 백업 디렉토리 생성
+            mkdir -p /root/phoenix_backups
+            
+            # 백업 실행
+            BACKUP_FILE="/root/phoenix_backups/phoenix_backup_$(date +%Y%m%d_%H%M%S).tar.gz"
+            tar -czf $BACKUP_FILE \
+              --exclude='venv' \
+              --exclude='__pycache__' \
+              --exclude='*.log' \
+              .
+            
+            echo "✅ 백업 완료: $BACKUP_FILE"
+            
+            # 7일 이상 된 백업 삭제
+            echo "🗑️ 오래된 백업 정리..."
+            find /root/phoenix_backups -name "*.tar.gz" -mtime +7 -delete
+            
+            # 백업 목록 출력
+            echo "📋 최근 백업 목록:"
+            ls -lh /root/phoenix_backups/ | tail -5
+
+      - name: Notify Telegram
+        if: always()
+        run: |
+          STATUS="${{ job.status }}"
+          if [ "$STATUS" = "success" ]; then
+            EMOJI="✅"
+            MSG="백업 완료"
+          else
+            EMOJI="❌"
+            MSG="백업 실패"
+          fi
+          
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=${EMOJI} Phoenix 일일 ${MSG}"

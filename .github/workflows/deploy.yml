@@ -1,0 +1,63 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bot/**'
+      - 'main.py'
+      - 'config.py'
+  workflow_dispatch:  # 수동 트리거 허용
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            cd /root/phoenix_v5_run
+            
+            # 백업
+            echo "📦 백업 중..."
+            mkdir -p /root/phoenix_backups
+            tar -czf /root/phoenix_backups/pre_deploy_$(date +%Y%m%d_%H%M%S).tar.gz \
+              --exclude='data' --exclude='logs' --exclude='venv' --exclude='__pycache__' .
+            
+            # Git pull
+            echo "📥 최신 코드 가져오기..."
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # 서비스 재시작
+            echo "🔄 서비스 재시작..."
+            systemctl restart phoenix_v5.service
+            
+            # 상태 확인
+            sleep 5
+            systemctl status phoenix_v5.service --no-pager
+
+      - name: Notify Telegram (Success)
+        if: success()
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=HTML" \
+            -d "text=✅ <b>Phoenix 배포 완료</b>%0A%0A📌 커밋: <code>${{ github.sha }}</code>%0A🌿 브랜치: ${{ github.ref_name }}%0A👤 작성자: ${{ github.actor }}"
+
+      - name: Notify Telegram (Failure)
+        if: failure()
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=HTML" \
+            -d "text=❌ <b>Phoenix 배포 실패</b>%0A%0A📌 커밋: <code>${{ github.sha }}</code>%0A⚠️ VPS 확인 필요!"
