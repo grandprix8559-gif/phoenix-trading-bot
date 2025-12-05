@@ -1,5 +1,71 @@
+# ===============================
+# 🔐 민감 정보 (절대 커밋 금지)
+# ===============================
 .env
-data/*.json
+.env.*
+*.key
+*_secret*
+api_keys.json
+
+# ===============================
+# 📊 운영 데이터
+# ===============================
+data/positions.json
+data/trades.json
+data/daily_summary.json
+data/ai_history.json
+data/scalp_positions.json
+*.log
+logs/
+
+# ===============================
+# 🐍 Python
+# ===============================
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
 venv/
+ENV/
+.venv/
+*.egg-info/
+dist/
+build/
+*.egg
+
+# ===============================
+# 💻 IDE
+# ===============================
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+
+# ===============================
+# 📦 배포/백업
+# ===============================
+*.tar.gz
+*.zip
+backups/
+phoenix_backups/
+
+# ===============================
+# 🧪 테스트
+# ===============================
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# ===============================
+# 📝 기타
+# ===============================
+*.bak
+*.tmp
+*.temp
+.cache/
